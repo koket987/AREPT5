@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Management</title>
+    <script defer src="script.js"></script>
+</head>
+<body>
+<h1>Real Estate Property Management</h1>
+
+<form id="propertyForm">
+    <input type="text" id="address" placeholder="Address" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <input type="number" id="size" placeholder="Size (sq ft)" required>
+    <textarea id="description" placeholder="Description" required></textarea>
+    <button type="submit">Add Property</button>
+</form>
+
+<h2>Property Listings</h2>
+<ul id="propertyList"></ul>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const propertyForm = document.getElementById("propertyForm");
+        const propertyList = document.getElementById("propertyList");
+        const apiUrl = "http://localhost:8080/properties";
+
+        function fetchProperties() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(properties => {
+                    propertyList.innerHTML = "";
+                    properties.forEach(property => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                            <strong>${property.address}</strong> -
+                            $${property.price} -
+                            ${property.size} sqft
+                            <p>${property.description}</p>
+                            <button onclick="deleteProperty(${property.id})">Delete</button>
+                        `;
+                        propertyList.appendChild(li);
+                    });
+                });
+        }
+
+        propertyForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const newProperty = {
+                address: document.getElementById("address").value,
+                price: document.getElementById("price").value,
+                size: document.getElementById("size").value,
+                description: document.getElementById("description").value
+            };
+            fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newProperty)
+            }).then(() => {
+                fetchProperties();
+                propertyForm.reset();
+            });
+        });
+
+        function deleteProperty(id) {
+            fetch(`${apiUrl}/${id}`, { method: "DELETE" })
+                .then(() => fetchProperties());
+        }
+
+        fetchProperties();
+    });
+</script>
+</body>
+</html>
