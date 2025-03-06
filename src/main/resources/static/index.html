@@ -12,7 +12,7 @@
 <form id="propertyForm">
     <input type="text" id="address" placeholder="Address" required>
     <input type="number" id="price" placeholder="Price" required>
-    <input type="number" id="size" placeholder="Size (sq ft)" required>
+    <input type="number" id="size" placeholder="Size (m2)" required>
     <textarea id="description" placeholder="Description" required></textarea>
     <button type="submit">Add Property</button>
 </form>
@@ -24,7 +24,7 @@
     document.addEventListener("DOMContentLoaded", () => {
         const propertyForm = document.getElementById("propertyForm");
         const propertyList = document.getElementById("propertyList");
-        const apiUrl = "http://localhost:8080/properties";
+        const apiUrl = "http://ec2-3-93-241-107.compute-1.amazonaws.com:8080/properties";
 
         function fetchProperties() {
             fetch(apiUrl)
@@ -36,7 +36,7 @@
                         li.innerHTML = `
                             <strong>${property.address}</strong> -
                             $${property.price} -
-                            ${property.size} sqft
+                            ${property.size} metro cuadrado
                             <p>${property.description}</p>
                             <button onclick="deleteProperty(${property.id})">Delete</button>
                         `;
