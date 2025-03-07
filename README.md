@@ -62,6 +62,7 @@ http://EC2_PUBLIC_IP:8080/properties
 ## Capturas de Pantalla
 ### Listado de Propiedades
 
+![Imagen de WhatsApp 2025-03-05 a las 19 38 27_385d12b4](https://github.com/user-attachments/assets/980795fe-9f10-4cad-9a20-f554e89b337d)
 
 
 ## Tecnologías Utilizadas
